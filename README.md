@@ -8,7 +8,7 @@
 
 Add the following line to your `Package.swift` file
 ```swift
-.package(url: "https://github.com/dnpp73/Cron-Swift.git", from: "3.0.1")
+.package(url: "https://github.com/dnpp73/Cron-Swift.git", from: "3.0.2")
 ```
 
 ## Usage
