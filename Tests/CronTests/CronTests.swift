@@ -12,12 +12,12 @@ import XCTest
 typealias NSDate = Foundation.Date
 
 class CronTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
@@ -35,8 +35,9 @@ class CronTests: XCTestCase {
     func testCronJob() {
         let expect = expectation(description: "Job will execute within 3 seconds")
 
+        var cronJob: CronJob?
         do {
-            _ = try CronJob(pattern: "* * * * * * *") { () -> Void in
+            cronJob = try CronJob(pattern: "* * * * * * *") { () -> Void in
                 expect.fulfill()
             }
         } catch {
@@ -44,6 +45,7 @@ class CronTests: XCTestCase {
         }
 
         waitForExpectations(timeout: 3) { (error) in
+            XCTAssertNotNil(cronJob)
             XCTAssertNil(error, String(describing: error))
         }
     }

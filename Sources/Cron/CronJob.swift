@@ -8,7 +8,7 @@
 
 import Dispatch
 
-public struct CronJob {
+public class CronJob {
     public let pattern: DatePattern
     let job: () -> Void
     let queue: DispatchQueue
@@ -52,9 +52,9 @@ public struct CronJob {
         }
 
         let interval = next.timeIntervalSinceNow
-        queue.asyncAfter(deadline: .now() + interval) { () -> () in
-            self.job()
-            self.start()
+        queue.asyncAfter(deadline: .now() + interval) { [weak self] () -> () in
+            self?.job()
+            self?.start()
         }
     }
 }
