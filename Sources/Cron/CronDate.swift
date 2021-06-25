@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Date {
+public struct CronDate {
     public let year     : Int
     public let month    : Int
     public let day      : Int
@@ -17,24 +17,24 @@ public struct Date {
     public let second   : Int
 }
 
-public extension Cron.Date {
-    init(date: Foundation.Date) {
+public extension CronDate {
+    init(date: Date) {
         let calendar = Calendar.current
-        self.year   = calendar.component(.year, from: date)
-        self.month  = calendar.component(.month, from: date)
-        self.day    = calendar.component(.day, from: date)
-        self.hour   = calendar.component(.hour, from: date)
-        self.minute = calendar.component(.minute, from: date)
-        self.second = calendar.component(.second, from: date)
+        self.year    = calendar.component(.year, from: date)
+        self.month   = calendar.component(.month, from: date)
+        self.day     = calendar.component(.day, from: date)
+        self.hour    = calendar.component(.hour, from: date)
+        self.minute  = calendar.component(.minute, from: date)
+        self.second  = calendar.component(.second, from: date)
     }
 
     init() {
-        self.init(date: Foundation.Date())
+        self.init(date: Date())
     }
 }
 
-public extension Cron.Date {
-    var date: Foundation.Date? {
+public extension CronDate {
+    var date: Date? {
         let d = NSDateComponents()
         d.calendar = NSCalendar.current
         d.year   = self.year
@@ -47,7 +47,7 @@ public extension Cron.Date {
     }
 }
 
-extension Cron.Date: Codable {
+extension CronDate: Codable {
     enum CodingKeys: String, CodingKey {
         case year
         case month

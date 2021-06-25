@@ -182,9 +182,9 @@ public func == (lhs: NumberSet, rhs: NumberSet) -> Bool {
 }
 
 
-extension Cron.Date: Equatable {}
+extension CronDate: Equatable {}
 
-public func == (lhs: Cron.Date, rhs: Cron.Date) -> Bool {
+public func == (lhs: CronDate, rhs: CronDate) -> Bool {
     return lhs.year == rhs.year && lhs.month == rhs.month && lhs.day == rhs.day && lhs.hour == rhs.hour && lhs.minute == rhs.minute && lhs.second == rhs.second
 }
 

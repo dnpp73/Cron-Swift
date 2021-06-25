@@ -222,7 +222,7 @@ public struct DatePattern {
             default: throw InternalError.unexpectedSymbol(entry, e)
             }
         }
-        
+
         let es = (entry + "\0").map { $0 }
         return try lexMain(es)
     }
@@ -253,7 +253,7 @@ internal extension DatePattern {
 }
 
 public extension DatePattern {
-    func next(_ date: Date = Date()) -> Date? {
+    func next(_ date: CronDate = CronDate()) -> CronDate? {
         if !yearPattern().contains(date.year) {
             return nextYear(date)
         }
@@ -300,7 +300,7 @@ internal extension DatePattern {
         fatalError("unreachable")
     }
 
-    func nextYear(_ date: Date) -> Date? {
+    func nextYear(_ date: CronDate) -> CronDate? {
         guard let nextYear = yearPattern().next(date.year) else {
             return nil
         }
@@ -314,11 +314,11 @@ internal extension DatePattern {
         }
 
         let (y, m, d) = ymd
-        return Date(year: y, month: m, day: d,
+        return CronDate(year: y, month: m, day: d,
             hour: firstHour, minute: firstMinute, second: firstSecond)
     }
 
-    func nextMonth(_ date: Date) -> Date? {
+    func nextMonth(_ date: CronDate) -> CronDate? {
         guard let nextMonth = monthPattern().next(date.month) else {
             return nextYear(date)
         }
@@ -332,48 +332,48 @@ internal extension DatePattern {
         }
 
         let (y, m, d) = ymd
-        return Date(year: y, month: m, day: d,
+        return CronDate(year: y, month: m, day: d,
             hour: firstHour, minute: firstMinute, second: firstSecond)
     }
 
-    func nextDay(_ date: Date) -> Date? {
+    func nextDay(_ date: CronDate) -> CronDate? {
         guard let nextDay = dayOfMonthPattern(month: date.month, year: date.year).next(date.day) else {
             return nextMonth(date)
         }
         guard let firstHour = firstHour(), let firstMinute = firstMinute(), let firstSecond = firstSecond() else {
             return nil
         }
-        return Date(year: date.year, month: date.month, day: nextDay,
+        return CronDate(year: date.year, month: date.month, day: nextDay,
             hour: firstHour, minute: firstMinute, second: firstSecond)
     }
 
-    func nextHour(_ date: Date) -> Date? {
+    func nextHour(_ date: CronDate) -> CronDate? {
         guard let nextHour = hourPattern().next(date.hour) else {
             return nextDay(date)
         }
         guard let firstMinute = firstMinute(), let firstSecond = firstSecond() else {
             return nil
         }
-        return Date(year: date.year, month: date.month, day: date.day,
+        return CronDate(year: date.year, month: date.month, day: date.day,
             hour: nextHour, minute: firstMinute, second: firstSecond)
     }
 
-    func nextMinute(_ date: Date) -> Date? {
+    func nextMinute(_ date: CronDate) -> CronDate? {
         guard let nextMinute = minutePattern().next(date.minute) else {
             return nextHour(date)
         }
         guard let firstSecond = firstSecond() else {
             return nil
         }
-        return Date(year: date.year, month: date.month, day: date.day,
+        return CronDate(year: date.year, month: date.month, day: date.day,
             hour: date.hour, minute: nextMinute, second: firstSecond)
     }
 
-    func nextSecond(_ date: Date) -> Date? {
+    func nextSecond(_ date: CronDate) -> CronDate? {
         guard let nextSecond = secondPattern().next(date.second) else {
             return nextMinute(date)
         }
-        return Date(year: date.year, month: date.month, day: date.day,
+        return CronDate(year: date.year, month: date.month, day: date.day,
             hour: date.hour, minute: date.minute, second: nextSecond)
     }
 }

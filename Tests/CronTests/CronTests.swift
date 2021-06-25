@@ -9,8 +9,6 @@
 import XCTest
 @testable import Cron
 
-typealias NSDate = Foundation.Date
-
 class CronTests: XCTestCase {
 
     override func setUp() {
@@ -23,7 +21,7 @@ class CronTests: XCTestCase {
         super.tearDown()
     }
 
-    func toDate(_ date: String) -> NSDate {
+    func toDate(_ date: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         if let newDate = dateFormatter.date(from: date) {
